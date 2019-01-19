@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
 
 class Student
 {
@@ -12,6 +13,8 @@ class Student
     public:
         Student(std::string name, std::string surname, int index)
             : _name(name), _surname(surname), _index(index) {}
+
+        friend std::ostream& operator<<(std::ostream& os, const Student& student);
 };
 
 class Database
@@ -24,6 +27,15 @@ class Database
         void delstudent(std::string name, std::string surname, int index);
      
 };
+std::ostream& operator<<(std::ostream& os, const Student& student)
+{
+    os << std::left << std::setw(13) << student._surname << " "
+       << std::left << std::setw(9) << student._name << " "
+       << std::left << std::setw(7) << student._index << "\n";
+    return os;
+}
+
+
 
 
 int main(){
@@ -34,6 +46,7 @@ int main(){
     Student Kamil("Kamil", "Dabrowski", 33333);
     Student Ada("Ada", "Kwiatkowska",   22222);
 
+    std::cout << Adam << Tomek << Kamil << Ada;
 
 return 0;
 }
