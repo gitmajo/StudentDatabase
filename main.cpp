@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <iomanip>
 
 class Student
@@ -16,6 +17,16 @@ class Student
         friend std::ostream& operator<<(std::ostream& os, const Student& student);
 };
 
+class Database
+{
+    private:
+        std::vector <Student> data;
+
+    public:
+        void addstudent(std::string name, std::string surname, int index);
+        void delstudent(std::string name, std::string surname, int index);
+     
+};
 std::ostream& operator<<(std::ostream& os, const Student& student)
 {
     os << std::left << std::setw(13) << student._surname << " "
