@@ -16,13 +16,13 @@ class Student
 
 class Database
 {
-    public:
-    void addstudent(std::string name, std::string surname, int index);
-    void delstudent(std::string name, std::string surname, int index);
-
     private:
-    std::vector <Student> data;
-         
+        std::vector <Student> data;
+
+    public:
+        void addstudent(std::string name, std::string surname, int index);
+        void delstudent(std::string name, std::string surname, int index);
+     
 };
 
 
