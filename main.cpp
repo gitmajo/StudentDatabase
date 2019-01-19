@@ -3,9 +3,9 @@
 
 class Student
 {
-std::string imie;
-std::string nazwisko;
-int indeks;
+	std::string name;
+	std::string surname;
+	int index;
 };
 
 
