@@ -59,7 +59,7 @@ bool Database::findStudentByIndex(const int index)
     
     if(iterator != data.end())
     {
-        std::cout << *iterator;
+        std::cout << *iterator << "\n";
         return true;
     }
     else
@@ -114,13 +114,17 @@ int main(){
     base.addStudent("Tomek", "Kowalski",    55555);
     base.addStudent("Kamil", "Dabrowski",   33333);
     base.addStudent("Ada",   "Kwiatkowska", 22222);
-
+    
+    std::cout << "--Print all:--\n";
     base.printStudents();
+    std::cout << "--Sort all:--\n";
     base.sortStudents();
     base.printStudents();
 
+    std::cout << "--Find:--\n";
     base.findStudentByIndex(33333);
 
+    std::cout << "--Delete:--\n";
     base.printStudents();
     base.delStudentByIndex(33333);
     base.printStudents();
