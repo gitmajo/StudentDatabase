@@ -4,46 +4,34 @@
 #include <iomanip>
 #include <algorithm>
 
-class Student
+class Database
 {
     private:
-        std::string _name {""};
-        std::string _surname {""};
-        int _index {0};
-    
-    public:
-        Student(std::string name, std::string surname, int index)
+        struct Student
+        {
+            std::string _name {""};
+            std::string _surname {""};
+            int _index {0};
+
+            Student(std::string name, std::string surname, int index)
             : _name(name), _surname(surname), _index(index) {}
+        };
+    private:
+        std::vector <Student> data;
+    public:
+        void addStudent(const std::string name, const std::string surname, const int index);
+        void printStudents();
+        void sortStudents();
+        auto findStudentByIndex(const int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Student& student);
         friend bool compare(const Student& leftSide, const Student& rightSide);
 };
 
-bool compare(const Student& leftSide, const Student& rightSide);
-
-class Database
-{
-    private:
-        std::vector <Student> data;
-
-    public:
-        void addStudent(const std::string name, const std::string surname, const int index);
-        void delStudent(const std::string name, const std::string surname, const int index);
-        void sortStudents();
-        void printStudents();
-};
-
-
-
 void Database::addStudent(std::string name, std::string surname, int index)
 {
     Student student(name, surname, index);
     data.push_back(student);
-}
-
-void Database::sortStudents()
-{
-    std::sort(data.begin(), data.end(), compare);
 }
 
 void Database::printStudents()
@@ -53,20 +41,37 @@ void Database::printStudents()
     std::cout << "\n";
 }
 
-bool compare(const Student& leftSide, const Student& rightSide)
+bool compare(const Database::Student& leftSide, const Database::Student& rightSide)
 {
     return leftSide._index < rightSide._index;
 }
 
+void Database::sortStudents()
+{
+    std::sort(data.begin(), data.end(), compare);
+}
 
-std::ostream& operator<<(std::ostream& os, const Student& student)
+auto Database::findStudentByIndex(const int index)
+{
+    //lambda expression
+    auto iterator = std::find_if(data.begin(), data.end(),
+                                [&index](const Student& student)
+                                { return student._index == index; }
+                                );
+    if (iterator != data.end())
+        std::cout << *iterator;
+    else
+        std::cout << index << " not found in base!\n";
+    return iterator;
+}
+
+std::ostream& operator<<(std::ostream& os, const Database::Student& student)
 {
     os << std::left << std::setw(13) << student._surname << " "
        << std::left << std::setw(9) << student._name << " "
        << std::left << std::setw(7) << student._index << "\n";
     return os;
 }
-
 
 
 int main(){
@@ -82,6 +87,8 @@ int main(){
     base.printStudents();
     base.sortStudents();
     base.printStudents();
+
+    base.findStudentByIndex(33333);
 
 return 0;
 }
