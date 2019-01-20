@@ -17,12 +17,14 @@ class Database
             : _name(name), _surname(surname), _index(index) {}
         };
     private:
-        std::vector <Student> data;
+        std::vector<Student> data;
+        std::vector<Student>::iterator getIteratorToStudent(const int index);
     public:
         void addStudent(const std::string name, const std::string surname, const int index);
         void printStudents();
         void sortStudents();
-        auto findStudentByIndex(const int index);
+        bool findStudentByIndex(const int index);
+        bool delStudentByIndex(const int index);
 
         friend std::ostream& operator<<(std::ostream& os, const Student& student);
         friend bool compare(const Student& leftSide, const Student& rightSide);
@@ -51,19 +53,48 @@ void Database::sortStudents()
     std::sort(data.begin(), data.end(), compare);
 }
 
-auto Database::findStudentByIndex(const int index)
+bool Database::findStudentByIndex(const int index)
+{
+    auto iterator = getIteratorToStudent(index);
+    
+    if(iterator != data.end())
+    {
+        std::cout << *iterator;
+        return true;
+    }
+    else
+    {
+        std::cout << index << " not found in database\n";
+        return false;
+    }
+}
+
+std::vector<Database::Student>::iterator Database::getIteratorToStudent(const int index)
 {
     //lambda expression
     auto iterator = std::find_if(data.begin(), data.end(),
                                 [&index](const Student& student)
                                 { return student._index == index; }
                                 );
-    if (iterator != data.end())
-        std::cout << *iterator;
-    else
-        std::cout << index << " not found in base!\n";
     return iterator;
 }
+
+bool Database::delStudentByIndex(const int index)
+{
+    auto iterator = getIteratorToStudent(index);
+
+    if(iterator != data.end())
+    {
+        data.erase(iterator);
+        return true;
+    }
+    else
+    {
+        std::cout << "Invalid index\n";
+        return false;
+    }
+}
+
 
 std::ostream& operator<<(std::ostream& os, const Database::Student& student)
 {
@@ -89,6 +120,10 @@ int main(){
     base.printStudents();
 
     base.findStudentByIndex(33333);
+
+    base.printStudents();
+    base.delStudentByIndex(33333);
+    base.printStudents();
 
 return 0;
 }
