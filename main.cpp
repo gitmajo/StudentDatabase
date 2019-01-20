@@ -72,7 +72,7 @@ std::ostream& operator<<(std::ostream& os, const Student& student)
 int main(){
     std::cout << "\nProject1: StudentDatabase\n\n";
     
-    Database base
+    Database base;
 
     base.addStudent("Adam",  "Malinowski",  12345);
     base.addStudent("Tomek", "Kowalski",    55555);
